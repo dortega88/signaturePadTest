@@ -1,3 +1,12 @@
+/*
+Required options to turn on TypeToSign
+options {
+  enableTypeToSign: true,
+  inputSelector: "#selector-for-input",
+  maxFontSize: "30",  // Defaults to 300 pt.
+  fontface: "Arial" // Defaults to Helvetica
+}
+*/
 var SignaturePad = (function (document) {
     "use strict";
 
