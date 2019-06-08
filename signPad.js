@@ -1,5 +1,5 @@
-
 jQuery(document).ready(function($) {
+
   $(function(){
     drawSignatureLine();
   })
@@ -8,9 +8,9 @@ jQuery(document).ready(function($) {
 
   var signaturePad = new SignaturePad(canvas, {
     backgroundColor: "rgb(255, 0, 0)",
-    penColor: "rgb(255, 0, 0)",
+    penColor: "rgb(0, 0, 0)",
     enableTypeToSign: true,
-    inputSelector: "#txt_name",
+    inputSelector: "#txtname",
     maxFontSize: "28",  // Defaults to 300 pt.
     fontface: "Arial" // Defaults to Helvetica
   });
@@ -26,7 +26,7 @@ jQuery(document).ready(function($) {
 
   document.getElementById('clear').addEventListener('click', function () {
       signaturePad.clear();
-      $('#txt_name').val('');
+      $('#txtname').val('');
     drawSignatureLine();
   });
 
