@@ -7,6 +7,7 @@ options {
   fontface: "Arial" // Defaults to Helvetica
 }
 */
+
 var SignaturePad = (function (document) {
     "use strict";
 
@@ -47,7 +48,7 @@ var SignaturePad = (function (document) {
     };
 
 
-    var SignaturePad = function (canvas, typingInput, options) {
+    var SignaturePad = function (canvas, options) {
         var self = this,
             opts = options || {};
 
@@ -63,11 +64,11 @@ var SignaturePad = (function (document) {
         this.onBegin = opts.onBegin;
 
         this.enableTypeToSign = opts.enableTypeToSign || false;
+        this.inputSelector = opts.inputSelector;
         this.maxFontSize = opts.maxFontSize || 300;
         this.fontface = opts.fontface || "Helvetica";
 
         this._canvas = canvas;
-        this._typeInputElement = typingInput;
         this._ctx = canvas.getContext("2d");
         this._mouseDownHandler = mouseDownHandler.bind(this);
         this._mouseMoveHandler = mouseMoveHandler.bind(this);
@@ -174,13 +175,14 @@ var SignaturePad = (function (document) {
 
     SignaturePad.prototype._handleTypeEvents = function () {
         var self = this;
-        var input = this._typeInputElement;
+        var y = self._canvas.height / 2;
+        var input = document.querySelector(self.inputSelector);
         if (self.enableTypeToSign) {
             input.addEventListener("keyup", function (event) {
                 self._ctx.clearRect(0, 0, self._canvas.width, self._canvas.height);
                 self._ctx.textBaseline = "middle";
                 self._ctx.textAlign ="center";
-                self._fitTextOnCanvas(input.value, self.fontface, self.fontsize);
+                self._fitTextOnCanvas(input.value, self.fontface, self.fontsize, y);
             });
         }
     };
@@ -192,21 +194,21 @@ var SignaturePad = (function (document) {
         this._canvas.removeEventListener("touchstart", this._touchStartHandler);
         this._canvas.removeEventListener("touchmove", this._touchMoveHandler);
         document.removeEventListener("touchend", this._touchEndHandler);
-    };
+    }
 
     SignaturePad.prototype.enableDrawing = function() {
         this._handleMouseEvents();
         this._handleTouchEvents();
-    };
+    }
 
-    SignaturePad.prototype._fitTextOnCanvas = function (text, fontface, maxFontSize) {
+    SignaturePad.prototype._fitTextOnCanvas = function (text, fontface, maxFontSize, yPosition) {
         var fontsize = this.maxFontSize;
         var dpr = window.devicePixelRatio || 1;
         do  {
           fontsize--;
           this._ctx.font = fontsize + "pt" + " " + fontface;
         } while (this._ctx.measureText(text).width > (this._canvas.width / dpr));
-        this._ctx.fillText(text, (this._canvas.width / dpr)/2, (this._canvas.height / dpr) / 2);
+        this._ctx.fillText(text, (this._canvas.width / dpr)/2, yPosition);
     };
 
     SignaturePad.prototype.isEmpty = function () {
@@ -392,3 +394,4 @@ var SignaturePad = (function (document) {
 
     return SignaturePad;
 })(document);
+
