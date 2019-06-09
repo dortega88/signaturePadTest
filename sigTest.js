@@ -7,7 +7,7 @@ jQuery(document).ready(function($) {
   var canvas = document.getElementById("signature-pad");
 
   var signaturePad = new SignaturePad(canvas, {
-    backgroundColor: "rgb(255, 0, 0)",
+    backgroundColor: "rgb(255, 255, 255)",
     penColor: "rgb(0, 0, 0)",
     enableTypeToSign: true,
     inputSelector: "#txtname",
@@ -25,8 +25,8 @@ jQuery(document).ready(function($) {
 
 
   document.getElementById('clear').addEventListener('click', function () {
-      signaturePad.clear();
-      $('#txtname').val('');
+    signaturePad.clear();
+    $('#txtname').val('');
     drawSignatureLine();
   });
 
